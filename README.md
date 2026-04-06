@@ -18,7 +18,7 @@ This Terraform configuration demonstrates best practices for provisioning cloud 
 | Resource | Details | Purpose |
 |----------|---------|---------|
 | **EC2 Instance** | t2.micro, Ubuntu 20.04 LTS | Web server running Nginx |
-| **Security Group** | terraform-nginx-sg | Allows inbound HTTP (80) and SSH (22) |
+| **Security Group** | terraform-nginx-sg | Managed by Terraform; allows inbound HTTP (80) and SSH (22) |
 | **IAM Role** | mern-ec2-role | EC2 instance permissions |
 | **Key Pair** | adish-nginx-keypair | SSH access to instance |
 | **Default VPC** | Existing AWS resource | Network infrastructure |
@@ -238,9 +238,9 @@ terraform destroy -auto-approve
 Your AWS user lacks required permissions. Attach `AmazonEC2FullAccess` or equivalent policy.
 
 ### Error: "InvalidGroup.Duplicate"
-Security group already exists. Either:
-- Delete manually via AWS console
-- Import into state: `terraform import aws_security_group.nginx_sg sg-xxxxx`
+Security group name already exists in the VPC. Either:
+- Delete or rename the existing security group in AWS
+- Change the `name` in `main.tf` to a unique value
 
 ### Error: "resource not found"
 Terraform state is out of sync. Run:
